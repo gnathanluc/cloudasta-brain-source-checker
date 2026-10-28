@@ -1,33 +1,35 @@
 # Cloudasta Brain — Source-of-Truth Checker
 
+**Live demo:** https://cloudasta-brain-source-checker-9pqvkebuhid2d5zsceyjxs.streamlit.app/
+
 ## What it does
-This Python prototype searches a small fictional knowledge library and helps a coworker identify which source is approved, which items are drafts or meeting notes, and where information may conflict.
+This small Python/Streamlit prototype searches a fictional sample knowledge library and helps a coworker spot approved sources, drafts, outdated documents, and possible conflicts. It prioritizes approval status over document recency and recommends confirming conflicts with the listed owner.
 
 ## How to use it
-1. Open the app.
-2. Search for a topic such as `onboarding price` or `onboarding checklist`.
-3. Review the source title, owner, status, date, and content.
-4. If the app flags a conflict, use the approved source as the starting point and verify with the named owner before making a commitment.
-5. Try **Show all sample sources** to inspect the sample library.
+1. Open the live demo link above.
+2. In **What information are you looking for?**, enter a topic such as `onboarding price` or `onboarding checklist`.
+3. Review each result's title, status, owner, date, and content.
+4. If a conflict or approval gap is flagged, use the approved source as a starting point and confirm the current decision with the owner before acting.
+5. To browse the sample library, select **Show all sample sources**.
 
-## How to run it
-Install Python 3.10+ and run:
+## Quick checks
+- `onboarding price`: should show the approved $5,000 policy alongside a draft $4,500 proposal and meeting notes that record no final approval. Check for a conflict/approval-gap warning.
+- `onboarding checklist`: should show the approved Employee Onboarding SOP and the older checklist with an unconfirmed owner.
+- `quarterly marketing forecast`: should return a no-match message because the sample library does not contain that topic.
+
+## If it breaks
+- **The app will not load:** refresh the page and try again. If it remains unavailable, check the app's Streamlit deployment page for an error.
+- **No results appear:** try a broader keyword or check spelling; this prototype searches sample records only.
+- **A result looks wrong:** remember that matching is keyword-based and inspect the displayed source details. Do not treat the tool as final approval.
+- **Sources conflict:** do not assume the newest item is correct. Confirm with the listed owner before quoting a price or taking action.
+
+## Important limitations
+This is a demonstration prototype with fictional sample data. It is **not** connected to Cloudasta's Google Drive, Gmail, Meet, or Gemini Enterprise, and it does not use an AI model. Search is keyword-based; source owners and approval statuses are manually entered. A production version would need approved integrations, permissions aligned with source access, validated metadata, audit logging, and human review for consequential decisions.
+
+## Run locally (optional)
+Requires Python 3.10 or later. In the project folder, run:
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
-
-Streamlit will open the app in a browser. If it does not open automatically, use the local URL printed in the terminal.
-
-## What to do when it breaks
-- If the app will not start, confirm Python is installed and run `pip install -r requirements.txt` again.
-- If a search returns no results, try a broader keyword or check the spelling.
-- If the result looks wrong, inspect the sample source records and the keyword-matching logic in `app.py`.
-- If documents conflict, do not assume the newest file is correct. Confirm approval and ask the listed owner.
-
-## Limitations and safety
-This is a demo prototype using fictional data. It is not connected to Cloudasta's Drive, Gmail, Meet, or Gemini Enterprise. It uses keyword matching, not an AI model. Source status and ownership are manually supplied, so a real deployment would need validated metadata, access controls, audit logging, and human review for high-impact decisions.
-
-## Test scenario
-Search `onboarding price`. The sample library contains an approved $5,000 pricing policy, a draft $4,500 proposal, and meeting notes discussing a possible $4,500 change without final approval. The expected behavior is to flag an approval gap and direct the user to verify with Finance rather than silently treating the newest item as correct.
